@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <title>Alunos</title>
+
+</head>
+
+<body>
+    <p>Lista de alunos cadastrados </p>
+    <ul>
+        <li th:each="aluno : ${alunos}">
+            <span
+                th:text="${aluno.primeiroNome} +' '+ ${aluno.ultimoNome} + ' - Curso:  ' + ${aluno.curso.descricao} " />
+        </li>
+    </ul>
+    <br><br>
+
+    <p>Tabela com as infos</p>
+    <table>
+        <thead>
+          <tr>
+            <th th:text="Nome"></th>
+            <th th:text="Curso"></th>
+            <th th:text="Linguagem"></th>
+            <th th:text="Sistemas_Operacionais"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="aluno: ${alunos}">
+              <td>
+                  <span th:text="${aluno.primeiroNome} + ' ||| ' "></span>
+                  <a th:href="@{/aluno/detalhes/{id}(id=${aluno.id})}"> (Detalhes) </a>
+              </td>
+            <td th:text="${aluno.curso.descricao}"></td>
+            <td th:text="${aluno.linguagem}"></td>
+            <td>
+              <ul>
+                  <ul th:each="so : ${aluno.sistemasOperacionas}" th:text="${so.toString()}"></ul>
+              </ul>
+            </td>
+              <td>
+                  <a th:href="@{/aluno/excluir/{id}(id=${aluno.id})}"> (Excluir) </a>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+
+    <br><br>
+    <a href="showForm">Formulário de alunos</a><br>
+    <a href="showListaAlunosCurso">Lista de alunos por Curso</a><br>
+    <a href="showListaAlunosLP">Lista de  alunos linguagem</a><br>
+    <a href="showListaAlunosSO">Lista de  alunos por sistema operacional</a><br>
+
+
+</body>
+
+</html>

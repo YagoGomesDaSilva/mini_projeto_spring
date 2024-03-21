@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <title>Alunos por LP</title>
+</head>
+<body>
+<h1>Alunos por LP</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Linguagens_de_Programacao</th>
+    <!--<th>Alunos</th>-->
+    <th>Total_de_Alunos</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Itera sobre cada linguagem de programação -->
+  <tr th:each="lp : ${alunosPorLP.keySet()}">
+    <td th:text="${lp}"></td>
+<!--<td>
+      <ul>
+        <li th:each="aluno : ${alunosPorLP.get(lp)}" th:text="${aluno.primeiroNome}"></li>
+      </ul>
+    </td> -->
+    <td th:text="${alunosPorLP.get(lp).size()}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
