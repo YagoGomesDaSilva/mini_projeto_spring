@@ -1,6 +1,6 @@
 package com.jeanlima.springmvcapp.Repository;
 
-import com.jeanlima.springmvcapp.Model.Aluno;
+import com.jeanlima.springmvcapp.model.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

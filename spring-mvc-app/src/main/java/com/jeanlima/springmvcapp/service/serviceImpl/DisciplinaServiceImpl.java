@@ -1,8 +1,8 @@
-package com.jeanlima.springmvcapp.Service.serviceImpl;
+package com.jeanlima.springmvcapp.service.serviceImpl;
 
-import com.jeanlima.springmvcapp.Model.Disciplina;
+import com.jeanlima.springmvcapp.model.Disciplina;
 import com.jeanlima.springmvcapp.Repository.DisciplinaRepository;
-import com.jeanlima.springmvcapp.Service.service.DisciplinaService;
+import com.jeanlima.springmvcapp.service.service.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

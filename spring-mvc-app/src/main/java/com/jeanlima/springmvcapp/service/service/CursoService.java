@@ -1,7 +1,6 @@
-package com.jeanlima.springmvcapp.Service.service;
+package com.jeanlima.springmvcapp.service.service;
 
-import com.jeanlima.springmvcapp.Model.Aluno;
-import com.jeanlima.springmvcapp.Model.Curso;
+import com.jeanlima.springmvcapp.model.Curso;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

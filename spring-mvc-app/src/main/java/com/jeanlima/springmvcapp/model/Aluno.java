@@ -1,9 +1,10 @@
-package com.jeanlima.springmvcapp.Model;
+package com.jeanlima.springmvcapp.model;
 
 import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
 import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 @Entity
@@ -50,6 +51,8 @@ public class Aluno {
     private List<Disciplina> disciplinas;
 
     public Aluno() {
+        this.avatar = new Avatar();
+        this.disciplinas = new ArrayList<>();
     }
 
     public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, List<Disciplina> disciplinas) {
@@ -104,7 +107,7 @@ public class Aluno {
     }
 
     public Curso getCurso() {
-        return curso;
+        return this.curso;
     }
 
     public void setCurso(Curso curso) {

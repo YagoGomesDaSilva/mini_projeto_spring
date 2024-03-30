@@ -1,7 +1,8 @@
-package com.jeanlima.springmvcapp.Model;
+package com.jeanlima.springmvcapp.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,6 +35,8 @@ public class Disciplina {
     private List<Curso> cursos;
 
     public Disciplina() {
+        this.alunos = new ArrayList<>();
+        this.cursos = new ArrayList<>();
     }
 
     public Disciplina(String descricao, String codigo, List<Aluno> alunos, List<Curso> cursos) {

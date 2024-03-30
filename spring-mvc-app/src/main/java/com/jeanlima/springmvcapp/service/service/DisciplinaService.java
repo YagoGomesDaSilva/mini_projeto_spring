@@ -1,6 +1,6 @@
-package com.jeanlima.springmvcapp.Service.service;
+package com.jeanlima.springmvcapp.service.service;
 
-import com.jeanlima.springmvcapp.Model.Disciplina;
+import com.jeanlima.springmvcapp.model.Disciplina;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;

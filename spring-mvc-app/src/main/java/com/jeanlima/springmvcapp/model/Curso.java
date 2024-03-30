@@ -1,4 +1,4 @@
-package com.jeanlima.springmvcapp.Model;
+package com.jeanlima.springmvcapp.model;
 
 import jakarta.persistence.*;
 
@@ -11,11 +11,12 @@ public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(name = "descricao", length = 50)
     private String descricao;
 
-    @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
-    private List<Aluno> alunos ;
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Aluno> alunos;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
@@ -25,6 +26,8 @@ public class Curso {
     private List<Disciplina> disciplina;
 
     public Curso() {
+        this.alunos = new ArrayList<>();
+        this.disciplina = new ArrayList<>();
     }
 
     public Curso(String descricao, List<Aluno> alunos, List<Disciplina> disciplina) {
@@ -50,7 +53,7 @@ public class Curso {
     }
 
     public List<Aluno> getAlunos() {
-        return alunos;
+        return this.alunos;
     }
 
     public void setAlunos(List<Aluno> alunos) {

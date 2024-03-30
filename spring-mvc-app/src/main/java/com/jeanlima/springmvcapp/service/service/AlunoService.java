@@ -1,12 +1,9 @@
-package com.jeanlima.springmvcapp.Service.service;
+package com.jeanlima.springmvcapp.service.service;
+
+import com.jeanlima.springmvcapp.model.Aluno;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
-import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
-import com.jeanlima.springmvcapp.Model.Curso;
-import org.springframework.stereotype.Service;
-import com.jeanlima.springmvcapp.Model.Aluno;
 
 @Service
 public interface AlunoService {
