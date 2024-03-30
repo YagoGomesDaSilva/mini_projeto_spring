@@ -36,63 +36,35 @@ public class SpringMvcAppApplication {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-            List<SistemaOperacional> sistemas1 = new ArrayList<>();
-            sistemas1.add(SistemaOperacional.OSX);
-            sistemas1.add(SistemaOperacional.WINDOWS);
+            for (int i = 0; i < 10; i++) {
+                List<SistemaOperacional> sistemas1 = new ArrayList<>();
+                sistemas1.add(SistemaOperacional.OSX);
+                sistemas1.add(SistemaOperacional.WINDOWS);
 
-            Curso curso1 = new Curso();
-            curso1.setDescricao("BTI");
-            cursoRepository.save(curso1);
+                Curso curso1 = new Curso();
+                curso1.setDescricao("Curso " + i);
+                cursoRepository.save(curso1);
 
-            // Populando Disciplinas
-            Disciplina disciplina1 = new Disciplina();
-            disciplina1.setDescricao("Disciplina 1");
-            disciplina1.setCodigo("D001");
+                // Populando Disciplinas
+                Disciplina disciplina1 = new Disciplina();
+                disciplina1.setDescricao("Disciplina " + i);
+                disciplina1.setCodigo("D00" + i);
 
-            Aluno aluno1 = new Aluno();
-            aluno1.setPrimeiroNome("quarema");
-            aluno1.setUltimoNome("Biel");
-            aluno1.setEmail("asnijcniauscdnicdas@adhnbhdasci");
-            aluno1.setSistemasOperacionais(sistemas1);
-            aluno1.getAvatar().setNomeFantasia("avatar");
-            aluno1.setCurso(curso1);
+                Aluno aluno1 = new Aluno();
+                aluno1.setPrimeiroNome("aluno " + i);
+                aluno1.setUltimoNome("doe");
+                aluno1.setEmail("email" + i + "@test.com");
+                aluno1.setSistemasOperacionais(sistemas1);
+                aluno1.getAvatar().setNomeFantasia("avatar" + i);
+                aluno1.setCurso(curso1);
 
-            alunoRepository.save(aluno1);
+                alunoRepository.save(aluno1);
 
-            disciplina1.getCursos().add(curso1);
-            disciplina1.getAlunos().add(aluno1);
-            disciplinaRepository.save(disciplina1);
+                disciplina1.getCursos().add(curso1);
+                disciplina1.getAlunos().add(aluno1);
+                disciplinaRepository.save(disciplina1);
+            }
         };
-
-/*
-			for (int i = 0; i < 10; i++) {
-				// Populando Avatar
-				Avatar avatar = new Avatar("Avatar " + (i + 1), null);
-				avatarRepository.save(avatar);
-
-				// Populando Curso
-				Curso curso = new Curso("Curso " + (i + 1), null, null);
-				cursoRepository.save(curso);
-
-				// Populando Disciplina
-				Disciplina disciplina = new Disciplina("Disciplina " + (i + 1), "D00" + (i + 1), null, null);
-				disciplinaRepository.save(disciplina);
-
-				// Populando Aluno
-				Aluno aluno = new Aluno("Nome" + (i + 1), "Sobrenome" + (i + 1), "email" + (i + 1) + "@example.com",
-						avatar, curso, LinguagemDeProgramacao.Java, Arrays.asList(SistemaOperacional.OSX, SistemaOperacional.WINDOWS), null);
-				alunoRepository.save(aluno);
-
-				// Associando Aluno, Curso e Disciplina
-				aluno.setDisciplinas(Collections.singletonList(disciplina));
-				alunoRepository.save(aluno);
-				curso.setAlunos(Set.of(aluno));
-				cursoRepository.save(curso);
-				disciplina.setAlunos(Collections.singletonList(aluno));
-				disciplinaRepository.save(disciplina);
-			}
-
-		};*/
     }
 
     public static void main(String[] args) {
