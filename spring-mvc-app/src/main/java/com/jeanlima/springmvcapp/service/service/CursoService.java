@@ -1,6 +1,7 @@
-package com.jeanlima.springmvcapp.service.service;
+package com.jeanlima.springmvcapp.Service.service;
 
-import com.jeanlima.springmvcapp.model.Curso;
+import com.jeanlima.springmvcapp.Model.Aluno;
+import com.jeanlima.springmvcapp.Model.Curso;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,4 +12,7 @@ public interface CursoService {
     public void deletarCurso(Curso curso);
     public Curso getCursoById(Integer id);
     public List<Curso> getListaCurso();
+    public List<Curso> getListaCursoWithDiciplina();
+    public Curso getCursoByIdWithDiciplina(Integer id);
+
 }

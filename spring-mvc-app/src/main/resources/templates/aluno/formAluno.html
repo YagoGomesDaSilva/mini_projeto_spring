@@ -13,10 +13,13 @@
         <p>Primeiro Nome: <input type="text" th:field="*{primeiroNome}" placeholder="Insira seu nome" /></p>
         <p>Último Nome: <input type="text" th:field="*{ultimoNome}" placeholder="Insira seu nome" /></p>
         <p>Curso:
-            <select th:field="*{curso}" class="form-control">
-                <option th:each="curso : ${cursos}" th:value="${curso}" th:text="${curso.descricao}"></option>
+            <select th:field="*{curso}">
+                <option th:each="curso : ${cursos}"
+                        th:value="${curso.id}"
+                        th:text="${curso.descricao}"/>
             </select>
         </p>
+
         <p> Linguagem de programação:
         <div th:each="lp : ${linguagensDeProgramacaoEnum}">
             <input type="radio" th:field="*{linguagem}" th:value="${lp}" th:text="${lp}" />

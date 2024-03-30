@@ -1,74 +1,43 @@
-package com.jeanlima.springmvcapp.service.serviceImpl;
+package com.jeanlima.springmvcapp.Service.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
-import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
-import com.jeanlima.springmvcapp.database.MemoryDB;
-import com.jeanlima.springmvcapp.service.service.AlunoService;
+import com.jeanlima.springmvcapp.Model.Aluno;
+import com.jeanlima.springmvcapp.Repository.AlunoRepository;
+import com.jeanlima.springmvcapp.Service.service.AlunoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jeanlima.springmvcapp.model.Aluno;
+import java.util.List;
 
 @Component
 public class AlunoServiceImpl implements AlunoService {
+
+    @Autowired
+    private AlunoRepository alunoRepository;
+
     @Override
     public void salvarAluno(Aluno aluno) {
-        System.out.println(aluno.toString());
-        try{
-            //this.alunos.add(aluno);
-            MemoryDB.adicionar(aluno);
-        } catch(Exception e){
-            e.printStackTrace();
-            System.out.println(e.toString());
-        }
+        alunoRepository.save(aluno);
     }
     @Override
     public void deletarAluno(Aluno aluno) {
-        MemoryDB.deletar(aluno);
+        alunoRepository.delete(aluno);
     }
     @Override
     public Aluno getAlunoById(Integer id) {
-         return MemoryDB.getById(id, Aluno.class);
+        return alunoRepository.findById(id).orElseThrow(()->null);
     }
     @Override
     public List<Aluno> getListaAluno() {
-        return MemoryDB.listar(Aluno.class);
-    }
-    @Override
-    public List<Aluno> getAlunosPorCursos(String curso) {
-        List<Aluno> alunosPorCurso = new ArrayList<>();
-        for(Aluno aluno : MemoryDB.listar(Aluno.class)){
-            if(Objects.equals(aluno.getCurso(), curso)){
-                alunosPorCurso.add(aluno);
-            }
-        }
-        return alunosPorCurso;
+        return alunoRepository.findAll();
     }
 
     @Override
-    public List<Aluno> getAlunosPorLP(LinguagemDeProgramacao lp) {
-        List<Aluno> alunosPorLp = new ArrayList<>();
-        for(Aluno aluno : MemoryDB.listar(Aluno.class)){
-            if(Objects.equals(aluno.getLinguagem(), lp.name())){
-                alunosPorLp.add(aluno);
-            }
-        }
-        return alunosPorLp;
+    public List<Aluno> getListaAlunoWithDiciplina(){
+        return alunoRepository.findAllFetchAlunoWithDisciplinas();
     }
-
     @Override
-    public List<Aluno> getAlunosPorSO(SistemaOperacional os) {
-        List<Aluno> alunosPorSO = new ArrayList<>();
-        for(Aluno aluno : MemoryDB.listar(Aluno.class)){
-            if(aluno.getSistemasOperacionas().contains(os.name())){
-                alunosPorSO.add(aluno);
-            }
-        }
-        return alunosPorSO;
+    public Aluno getAlunoByIdWithDiciplina(Integer id){
+        return alunoRepository.findFetchAlunoByIdWithDisciplinas(id);
     }
-
 
 }

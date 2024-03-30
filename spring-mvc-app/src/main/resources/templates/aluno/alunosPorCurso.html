@@ -18,11 +18,13 @@
     </tr>
     </thead>
     <tbody>
+    <!-- Loop pelos cursos -->
     <tr th:each="curso : ${cursos}">
         <td th:text="${curso.descricao}"></td>
         <td>
+            <!-- Loop pelos alunos do curso -->
             <ul>
-                <ul th:each="aluno : ${curso.alunos}" th:text="${aluno.primeiroNome}"></ul>
+                <li th:each="aluno : ${curso.alunos}" th:text="${aluno.primeiroNome + ' ' + aluno.getUltimoNome()}"></li>
             </ul>
         </td>
         <td th:text="${curso.alunos.size()}"></td>

@@ -1,24 +1,38 @@
-package com.jeanlima.springmvcapp.model;
+package com.jeanlima.springmvcapp.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import jakarta.persistence.*;
 
+import java.util.*;
+
+@Entity
+@Table(name = "curso")
 public class Curso {
-    private Integer id;
-    private String descricao;
-    private List<Aluno> alunos = new ArrayList<>();
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "descricao", length = 50)
+    private String descricao;
+
+    @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
+    private List<Aluno> alunos ;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "curso_disciplina",
+            joinColumns = @JoinColumn(name = "curso_id"),
+            inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
+    private List<Disciplina> disciplina;
 
     public Curso() {
-        this.id = new Random().nextInt(10000);
     }
 
-    public Curso(Integer id, String descricao) {
-        this.id = id;
+    public Curso(String descricao, List<Aluno> alunos, List<Disciplina> disciplina) {
         this.descricao = descricao;
+        this.alunos = alunos;
+        this.disciplina = disciplina;
     }
+
     public Integer getId() {
         return id;
     }
@@ -43,21 +57,26 @@ public class Curso {
         this.alunos = alunos;
     }
 
+    public List<Disciplina> getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(List<Disciplina> disciplina) {
+        this.disciplina = disciplina;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Curso curso = (Curso) o;
-        return Objects.equals(id, curso.id) && Objects.equals(descricao, curso.descricao);
+        return Objects.equals(id, curso.id) && Objects.equals(descricao, curso.descricao) && Objects.equals(alunos, curso.alunos) && Objects.equals(disciplina, curso.disciplina);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao);
+        return Objects.hash(id, descricao, alunos, disciplina);
     }
 
-    @Override
-    public String toString() {
-        return "Curso[" + "id=" + id +", descricao='" + descricao + '\'' + ']';
-    }
+
 }

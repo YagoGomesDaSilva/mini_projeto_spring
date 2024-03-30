@@ -1,143 +1,151 @@
-package com.jeanlima.springmvcapp.model;
+package com.jeanlima.springmvcapp.Model;
 
 import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
 import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
+import java.util.Objects;
+@Entity
+@Table(name = "aluno")
 public class Aluno {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "primeiro_nome")
     private String primeiroNome;
+
+    @Column(name = "ultimo_nome")
     private String ultimoNome;
-    private Curso curso ;
-    private LinguagemDeProgramacao linguagem;
+
+    @Column(name = "email")
     private String email;
-    private List<SistemaOperacional> sistemasOperacionas;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "avatar_id", referencedColumnName = "id")
+    private Avatar avatar;
+
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
+
+    @Enumerated(EnumType.STRING)
+    private LinguagemDeProgramacao linguagem;
+
+    @ElementCollection(targetClass = SistemaOperacional.class)
+    @CollectionTable(
+            name = "aluno_sistemas_operacionais",
+            joinColumns = @JoinColumn(name = "aluno_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sistema_operacional")
+    private List<SistemaOperacional> sistemasOperacionais;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "aluno_disciplina",
+            joinColumns = @JoinColumn(name = "aluno_id"),
+            inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
+    private List<Disciplina> disciplinas;
 
     public Aluno() {
-        this.id = new Random().nextInt(10000);
     }
-    public Aluno(String primeiroNome, String ultimoNome, Curso curso, LinguagemDeProgramacao linguagem, String email) {
-        this.id = new Random().nextInt(10000);
+
+    public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, List<Disciplina> disciplinas) {
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
+        this.email = email;
+        this.avatar = avatar;
         this.curso = curso;
         this.linguagem = linguagem;
-        this.email = email;
-
-        int index = new Random().nextInt(SistemaOperacional.values().length);
-        // Atribua um valor aleatório do enum ao atributo sistemaOperacional
-        this.sistemasOperacionas = new ArrayList<>();
-        this.sistemasOperacionas.add(SistemaOperacional.valueOf(String.valueOf(SistemaOperacional.values()[index])));
+        this.sistemasOperacionais = sistemasOperacionais;
+        this.disciplinas = disciplinas;
     }
 
     public Integer getId() {
         return id;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getPrimeiroNome() {
         return primeiroNome;
     }
+
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
     }
+
     public String getUltimoNome() {
         return ultimoNome;
     }
+
     public void setUltimoNome(String ultimoNome) {
         this.ultimoNome = ultimoNome;
     }
 
-    public Curso getCurso() {
-        return this.curso;
-    }
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-    public LinguagemDeProgramacao getLinguagem() {
-        return linguagem;
-    }
-    public void setLinguagem(LinguagemDeProgramacao linguagem) {
-        this.linguagem = linguagem;
-    }
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public List<SistemaOperacional> getSistemasOperacionas() {
-        return sistemasOperacionas;
+    public Avatar getAvatar() {
+        return avatar;
     }
-    public void setSistemasOperacionas(List<SistemaOperacional> sistemasOperacionas) {
-        this.sistemasOperacionas = sistemasOperacionas;
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public LinguagemDeProgramacao getLinguagem() {
+        return linguagem;
+    }
+
+    public void setLinguagem(LinguagemDeProgramacao linguagem) {
+        this.linguagem = linguagem;
+    }
+
+    public List<SistemaOperacional> getSistemasOperacionais() {
+        return sistemasOperacionais;
+    }
+
+    public void setSistemasOperacionais(List<SistemaOperacional> sistemasOperacionais) {
+        this.sistemasOperacionais = sistemasOperacionais;
+    }
+
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
     }
 
     @Override
-    public String toString() {
-        return "Aluno [id=" + id + ", primeiroNome=" + primeiroNome + ", ultimoNome=" + ultimoNome + ", email=" + email
-                + "]";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aluno aluno = (Aluno) o;
+        return Objects.equals(id, aluno.id) && Objects.equals(primeiroNome, aluno.primeiroNome) && Objects.equals(ultimoNome, aluno.ultimoNome) && Objects.equals(email, aluno.email) && Objects.equals(avatar, aluno.avatar) && Objects.equals(curso, aluno.curso) && linguagem == aluno.linguagem && Objects.equals(sistemasOperacionais, aluno.sistemasOperacionais) && Objects.equals(disciplinas, aluno.disciplinas);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((primeiroNome == null) ? 0 : primeiroNome.hashCode());
-        result = prime * result + ((ultimoNome == null) ? 0 : ultimoNome.hashCode());
-        result = prime * result + ((curso == null) ? 0 : curso.hashCode());
-        result = prime * result + ((linguagem == null) ? 0 : linguagem.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        return result;
+        return Objects.hash(id, primeiroNome, ultimoNome, email, avatar, curso, linguagem, sistemasOperacionais, disciplinas);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Aluno other = (Aluno) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (primeiroNome == null) {
-            if (other.primeiroNome != null)
-                return false;
-        } else if (!primeiroNome.equals(other.primeiroNome))
-            return false;
-        if (ultimoNome == null) {
-            if (other.ultimoNome != null)
-                return false;
-        } else if (!ultimoNome.equals(other.ultimoNome))
-            return false;
-        if (curso == null) {
-            if (other.curso != null)
-                return false;
-        } else if (!curso.equals(other.curso))
-            return false;
-        if (linguagem == null) {
-            if (other.linguagem != null)
-                return false;
-        } else if (!linguagem.equals(other.linguagem))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        return true;
-    }
-
 
 }

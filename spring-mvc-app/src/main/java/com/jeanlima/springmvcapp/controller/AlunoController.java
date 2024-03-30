@@ -1,20 +1,19 @@
-package com.jeanlima.springmvcapp.controller;
+package com.jeanlima.springmvcapp.Controller;
 
 import java.util.*;
 
 import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
 import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
-import com.jeanlima.springmvcapp.database.MemoryDB;
-import com.jeanlima.springmvcapp.model.Curso;
-import com.jeanlima.springmvcapp.service.service.CursoService;
+import com.jeanlima.springmvcapp.Model.Curso;
+import com.jeanlima.springmvcapp.Service.service.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.jeanlima.springmvcapp.model.Aluno;
-import com.jeanlima.springmvcapp.service.service.AlunoService;
+import com.jeanlima.springmvcapp.Model.Aluno;
+import com.jeanlima.springmvcapp.Service.service.AlunoService;
 
 
 @Controller
@@ -32,10 +31,12 @@ public class AlunoController {
     @RequestMapping("/showForm")
     public Object showFormAluno(Model model){
 
+        Aluno aluno = new Aluno();
+        Curso curso = new Curso();
+        aluno.setCurso(curso);
+        model.addAttribute("aluno", aluno);
+        model.addAttribute("cursos", cursoService.getListaCurso());
 
-        List<Curso> cursos = cursoService.getListaCurso();
-        model.addAttribute("aluno", new Aluno());
-        model.addAttribute("cursos", cursos);
         model.addAttribute("linguagensDeProgramacaoEnum", LinguagemDeProgramacao.values());
         model.addAttribute("sistemasOperacionaisEnum", SistemaOperacional.values());
 
@@ -44,7 +45,12 @@ public class AlunoController {
 
     @RequestMapping("/addAluno")
     public String showFormAluno(@ModelAttribute("aluno") Aluno aluno,  Model model){
+
+       Curso cursoSelecionado = cursoService.getCursoById(aluno.getCurso().getId());
+        aluno.setCurso(cursoSelecionado);
+
         alunoService.salvarAluno(aluno);
+        //cursoService.adicionarAlunoAoCurso(aluno.getCurso(),aluno);
         model.addAttribute("aluno", aluno);
         return "aluno/paginaAluno";
     }
@@ -66,6 +72,7 @@ public class AlunoController {
     @GetMapping("/excluir/{id}")
     public String excluirAluno(@PathVariable("id") Integer id) {
         Aluno aluno = alunoService.getAlunoById(id);
+        //cursoService.removerAlunoDoCurso(aluno.getCurso(),aluno);
         alunoService.deletarAluno(aluno);
         return "redirect:/aluno/getListaAlunos";
     }
@@ -73,9 +80,8 @@ public class AlunoController {
     @GetMapping("/showListaAlunosCurso")
     public String listarAlunosPorCurso(Model model) {
         List<Curso> cursos = cursoService.getListaCurso();
-        List<Aluno> alunos = alunoService.getListaAluno();
         model.addAttribute("cursos", cursos);
-        model.addAttribute("alunos", alunos);
+
         return "aluno/alunosPorCurso";
     }
 
