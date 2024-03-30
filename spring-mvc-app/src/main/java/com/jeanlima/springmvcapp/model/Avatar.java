@@ -1,4 +1,4 @@
-package com.jeanlima.springmvcapp.Model;
+package com.jeanlima.springmvcapp.model;
 
 import jakarta.persistence.*;
 

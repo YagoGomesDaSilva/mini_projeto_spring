@@ -1,8 +1,8 @@
-package com.jeanlima.springmvcapp.Service.serviceImpl;
+package com.jeanlima.springmvcapp.service.serviceImpl;
 
-import com.jeanlima.springmvcapp.Model.Curso;
 import com.jeanlima.springmvcapp.Repository.CursoRepository;
-import com.jeanlima.springmvcapp.Service.service.CursoService;
+import com.jeanlima.springmvcapp.model.Curso;
+import com.jeanlima.springmvcapp.service.service.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
-package com.jeanlima.springmvcapp.Service.serviceImpl;
+package com.jeanlima.springmvcapp.service.serviceImpl;
 
-import com.jeanlima.springmvcapp.Model.Avatar;
+import com.jeanlima.springmvcapp.model.Avatar;
 import com.jeanlima.springmvcapp.Repository.AvatarRepository;
-import com.jeanlima.springmvcapp.Service.service.AvatarService;
+import com.jeanlima.springmvcapp.service.service.AvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class AvatarServiceImpl implements AvatarService {
 
     @Override
     public void deletarAvatar(Avatar avatar) {
-    avatarRepository.delete(avatar);
+        avatarRepository.delete(avatar);
     }
 
     @Override

@@ -1,7 +1,7 @@
-package com.jeanlima.springmvcapp.Service.service;
+package com.jeanlima.springmvcapp.service.service;
 
-import com.jeanlima.springmvcapp.Model.Aluno;
-import com.jeanlima.springmvcapp.Model.Avatar;
+import com.jeanlima.springmvcapp.model.Aluno;
+import com.jeanlima.springmvcapp.model.Avatar;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

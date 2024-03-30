@@ -1,8 +1,8 @@
-package com.jeanlima.springmvcapp.Service.serviceImpl;
+package com.jeanlima.springmvcapp.service.serviceImpl;
 
-import com.jeanlima.springmvcapp.Model.Aluno;
+import com.jeanlima.springmvcapp.model.Aluno;
 import com.jeanlima.springmvcapp.Repository.AlunoRepository;
-import com.jeanlima.springmvcapp.Service.service.AlunoService;
+import com.jeanlima.springmvcapp.service.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
-package com.jeanlima.springmvcapp.Controller;
+package com.jeanlima.springmvcapp.controller;
 
-import com.jeanlima.springmvcapp.Model.Curso;
-import com.jeanlima.springmvcapp.Service.service.CursoService;
+import com.jeanlima.springmvcapp.model.Curso;
+import com.jeanlima.springmvcapp.service.service.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
