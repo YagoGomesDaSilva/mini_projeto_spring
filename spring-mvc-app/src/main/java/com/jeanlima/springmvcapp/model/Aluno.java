@@ -4,9 +4,8 @@ import com.jeanlima.springmvcapp.Enum.LinguagemDeProgramacao;
 import com.jeanlima.springmvcapp.Enum.SistemaOperacional;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 @Entity
 @Table(name = "aluno")
 public class Aluno {
@@ -48,14 +47,16 @@ public class Aluno {
             name = "aluno_disciplina",
             joinColumns = @JoinColumn(name = "aluno_id"),
             inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
-    private List<Disciplina> disciplinas;
+    private Set<Disciplina> disciplinas;
 
     public Aluno() {
         this.avatar = new Avatar();
-        this.disciplinas = new ArrayList<>();
+        this.disciplinas = new HashSet<>();
+
+
     }
 
-    public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, List<Disciplina> disciplinas) {
+    public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, Set<Disciplina> disciplinas) {
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
@@ -130,11 +131,11 @@ public class Aluno {
         this.sistemasOperacionais = sistemasOperacionais;
     }
 
-    public List<Disciplina> getDisciplinas() {
+    public Set<Disciplina> getDisciplinas() {
         return disciplinas;
     }
 
-    public void setDisciplinas(List<Disciplina> disciplinas) {
+    public void setDisciplinas(Set<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
     }
 

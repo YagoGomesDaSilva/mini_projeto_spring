@@ -23,14 +23,15 @@ public class Curso {
             name = "curso_disciplina",
             joinColumns = @JoinColumn(name = "curso_id"),
             inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
-    private List<Disciplina> disciplina;
+    private Set<Disciplina> disciplina;
 
     public Curso() {
         this.alunos = new ArrayList<>();
-        this.disciplina = new ArrayList<>();
+        this.disciplina = new HashSet<>();
+
     }
 
-    public Curso(String descricao, List<Aluno> alunos, List<Disciplina> disciplina) {
+    public Curso(String descricao, List<Aluno> alunos, Set<Disciplina> disciplina) {
         this.descricao = descricao;
         this.alunos = alunos;
         this.disciplina = disciplina;
@@ -60,11 +61,11 @@ public class Curso {
         this.alunos = alunos;
     }
 
-    public List<Disciplina> getDisciplina() {
+    public Set<Disciplina> getDisciplina() {
         return disciplina;
     }
 
-    public void setDisciplina(List<Disciplina> disciplina) {
+    public void setDisciplina(Set<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
 
@@ -80,6 +81,5 @@ public class Curso {
     public int hashCode() {
         return Objects.hash(id, descricao, alunos, disciplina);
     }
-
 
 }
