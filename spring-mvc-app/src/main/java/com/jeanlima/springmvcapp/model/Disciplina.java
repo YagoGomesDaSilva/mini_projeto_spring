@@ -2,9 +2,7 @@ package com.jeanlima.springmvcapp.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "disciplina")
@@ -25,21 +23,23 @@ public class Disciplina {
             name="disciplina_aluno",
             joinColumns=@JoinColumn(name="disciplina_id"),
             inverseJoinColumns=@JoinColumn(name="aluno_id"))
-    private List<Aluno> alunos;
+    private Set<Aluno> alunos;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "disciplina_curso",
             joinColumns = @JoinColumn(name = "disciplina_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id"))
-    private List<Curso> cursos;
+    private Set<Curso> cursos;
 
     public Disciplina() {
-        this.alunos = new ArrayList<>();
-        this.cursos = new ArrayList<>();
+        this.alunos = new HashSet<>();
+        this.cursos = new HashSet<>();
+
+
     }
 
-    public Disciplina(String descricao, String codigo, List<Aluno> alunos, List<Curso> cursos) {
+    public Disciplina(String descricao, String codigo, Set<Aluno> alunos, Set<Curso> cursos) {
         this.descricao = descricao;
         this.codigo = codigo;
         this.alunos = alunos;
@@ -70,19 +70,19 @@ public class Disciplina {
         this.codigo = codigo;
     }
 
-    public List<Aluno> getAlunos() {
+    public Set<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(Set<Aluno> alunos) {
         this.alunos = alunos;
     }
 
-    public List<Curso> getCursos() {
+    public Set<Curso> getCursos() {
         return cursos;
     }
 
-    public void setCursos(List<Curso> curso) {
+    public void setCursos(Set<Curso> curso) {
         this.cursos = curso;
     }
 
@@ -98,6 +98,5 @@ public class Disciplina {
     public int hashCode() {
         return Objects.hash(id, descricao, codigo, alunos, cursos);
     }
-
 
 }
