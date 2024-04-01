@@ -23,23 +23,23 @@ public class Disciplina {
             name="disciplina_aluno",
             joinColumns=@JoinColumn(name="disciplina_id"),
             inverseJoinColumns=@JoinColumn(name="aluno_id"))
-    private Set<Aluno> alunos;
+    private List<Aluno> alunos;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "disciplina_curso",
             joinColumns = @JoinColumn(name = "disciplina_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id"))
-    private Set<Curso> cursos;
+    private List<Curso> cursos;
 
     public Disciplina() {
-        this.alunos = new HashSet<>();
-        this.cursos = new HashSet<>();
+        this.alunos = new ArrayList<>();
+        this.cursos = new ArrayList<>();
 
 
     }
 
-    public Disciplina(String descricao, String codigo, Set<Aluno> alunos, Set<Curso> cursos) {
+    public Disciplina(String descricao, String codigo, List<Aluno> alunos, List<Curso> cursos) {
         this.descricao = descricao;
         this.codigo = codigo;
         this.alunos = alunos;
@@ -70,19 +70,19 @@ public class Disciplina {
         this.codigo = codigo;
     }
 
-    public Set<Aluno> getAlunos() {
+    public List<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(Set<Aluno> alunos) {
+    public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
     }
 
-    public Set<Curso> getCursos() {
+    public List<Curso> getCursos() {
         return cursos;
     }
 
-    public void setCursos(Set<Curso> curso) {
+    public void setCursos(List<Curso> curso) {
         this.cursos = curso;
     }
 
