@@ -35,117 +35,63 @@ public class SpringMvcAppApplication {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-/*
-
-
-            // Recuperar todas as disciplinas e cursos disponíveis do banco de dados
-            List<Disciplina> disciplinas = disciplinaRepository.findAll();
-            List<Curso> cursos = cursoRepository.findAll();
-
-            // Associar disciplinas aos cursos
-            for (Curso curso : cursos) {
-                Set<Disciplina> disciplinasDoCurso = new HashSet<>();
-                for (int i = 0; i < 3; i++) { // Associar 3 disciplinas a cada curso
-                    Disciplina disciplina = disciplinas.get(new Random().nextInt(disciplinas.size()));
-                    disciplinasDoCurso.add(disciplina);
-                }
-                curso.setDisciplina(disciplinasDoCurso);
-                cursoRepository.save(curso); // Salvar curso com as disciplinas associadas
-            }
-
-            cursos = cursoRepository.findAllFetchCursoWithDisciplinas();
-
-            for (int i = 0; i < cursos.size(); i++) {
-                System.out.println(cursos.get(i).getDescricao());
-                var disciplnas_do_curso = cursos.get(i).getDisciplina();
-                for (int j = 0; j < disciplnas_do_curso.size(); j++){
-                    System.out.println(disciplnas_do_curso.get(j).getDescricao());
-                    disciplinaRepository.save(disciplnas_do_curso.get(j));
-                }
-            }
-            */
-
-
-/*
-
-
-            // Associar cursos às disciplinas
-            for (Disciplina disciplina : disciplinas) {
-                List<Curso> cursosDaDisciplina = new ArrayList<>();
-                for (int i = 0; i < 3; i++) { // Associar 3 cursos a cada disciplina
-                    Curso curso = cursos.get(new Random().nextInt(cursos.size()));
-                    cursosDaDisciplina.add(curso);
-                }
-                disciplina.setCursos(cursosDaDisciplina);
-                disciplinaRepository.save(disciplina); // Salvar disciplina com os cursos associados
-            }
-*/
-
-/*
-            // Populando Disciplinas
-            for (int i = 0; i < 10; i++) {
-                Disciplina disciplina = new Disciplina();
-                disciplina.setDescricao("Disciplina " + (i + 1) );
-                disciplina.setCodigo("D00" + i);
-                disciplinaRepository.save(disciplina);
-            }
-            // Populando Curso
+            
+            // Criar cursos
+            List<Curso> cursos = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 Curso curso = new Curso();
                 curso.setDescricao("Curso " + (i + 1));
-                cursoRepository.save(curso);
+                cursos.add(curso);
             }
+            cursoRepository.saveAll(cursos);
 
+            // Criar disciplinas
+            List<Disciplina> disciplinas = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setDescricao("Disciplina " + (i + 1));
+                disciplina.setCodigo("D00" + (i + 1));
+                disciplinas.add(disciplina);
+            }
+            disciplinaRepository.saveAll(disciplinas);
 
-            // Recuperar todas as disciplinas e cursos disponíveis do banco de dados
-            List<Disciplina> disciplinas = disciplinaRepository.findAll();
-            List<Curso> cursos = cursoRepository.findAll();
-
-            // Verificar se há disciplinas e cursos disponíveis
-            if (!disciplinas.isEmpty() && !cursos.isEmpty()) {
-                // Associar cursos às disciplinas e disciplinas aos cursos
-                for (Disciplina disciplina : disciplinas) {
-                    Set<Curso> cursosDaDisciplina = new HashSet<>();
-                    for (int i = 0; i < 3; i++) { // Associar 3 cursos a cada disciplina (ajuste conforme necessário)
-                        Curso curso = cursos.get(new Random().nextInt(cursos.size()));
-                        cursosDaDisciplina.add(curso);
-                        curso.getDisciplina().add(disciplina); // Associar disciplina ao curso
-                        cursoRepository.save(curso); // Salvar curso com a disciplina associada
-                    }
-                    disciplina.setCursos(cursosDaDisciplina);
-                    disciplinaRepository.save(disciplina); // Salvar disciplina com os cursos associados
+            // Associar disciplinas aos cursos
+            for (Disciplina disciplina : disciplinas) {
+                for (int i = 0; i < 2; i++) { // Associar cada disciplina a 2 cursos
+                    Curso curso = cursos.get(new Random().nextInt(cursos.size()));
+                    disciplina.getCursos().add(curso);
+                    curso.getDisciplina().add(disciplina);
                 }
             }
-*/
 
-            for (int i = 0; i < 10; i++) {
-                List<SistemaOperacional> sistemas1 = new ArrayList<>();
-                sistemas1.add(SistemaOperacional.OSX);
-                sistemas1.add(SistemaOperacional.WINDOWS);
+            // Associar alunos às disciplinas
+            List<Aluno> alunos = new ArrayList<>();
+            for (int i = 0; i < 50; i++) {
+                Aluno aluno = new Aluno();
+                aluno.setPrimeiroNome("Aluno " + (i + 1));
+                aluno.setUltimoNome("Sobrenome " + (i + 1));
+                aluno.setEmail("aluno" + (i + 1) + "@exemplo.com");
 
-                Curso curso1 = new Curso();
-                curso1.setDescricao("Curso " + i);
-                cursoRepository.save(curso1);
+                Curso cursoDoAluno = cursos.get(new Random().nextInt(cursos.size()));
+                aluno.setCurso(cursoDoAluno);
 
-                // Populando Disciplinas
-                Disciplina disciplina1 = new Disciplina();
-                disciplina1.setDescricao("Disciplina " + i);
-                disciplina1.setCodigo("D00" + i);
-
-                Aluno aluno1 = new Aluno();
-                aluno1.setPrimeiroNome("aluno " + i);
-                aluno1.setUltimoNome("doe");
-                aluno1.setEmail("email" + i + "@test.com");
-                aluno1.setSistemasOperacionais(sistemas1);
-                aluno1.getAvatar().setNomeFantasia("avatar" + i);
-                aluno1.setCurso(curso1);
-
-                alunoRepository.save(aluno1);
-
-                disciplina1.getCursos().add(curso1);
-                disciplina1.getAlunos().add(aluno1);
-                disciplinaRepository.save(disciplina1);
+                alunoRepository.save(aluno);
+                alunos.add(aluno);
             }
+
+            for (Aluno aluno : alunos) {
+                for (int i = 0; i < 3; i++) { // Associar cada aluno a 3 disciplinas
+                    Disciplina disciplina = disciplinas.get(new Random().nextInt(disciplinas.size()));
+                    aluno.getDisciplinas().add(disciplina);
+                    disciplina.getAlunos().add(aluno);
+                }
+            }
+
+            // Salvar todas as alterações no banco de dados
+            alunoRepository.saveAll(alunos);
+            disciplinaRepository.saveAll(disciplinas);
+
+
 
 
         };
@@ -154,5 +100,4 @@ public class SpringMvcAppApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringMvcAppApplication.class, args);
     }
-
 }

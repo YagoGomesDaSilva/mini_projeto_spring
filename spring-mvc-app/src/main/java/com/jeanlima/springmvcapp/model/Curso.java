@@ -15,23 +15,19 @@ public class Curso {
     @Column(name = "descricao", length = 50)
     private String descricao;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Aluno> alunos;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "curso_disciplina",
-            joinColumns = @JoinColumn(name = "curso_id"),
-            inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
-    private Set<Disciplina> disciplina;
+    @ManyToMany(mappedBy = "cursos")
+    private List<Disciplina> disciplina;
 
     public Curso() {
         this.alunos = new ArrayList<>();
-        this.disciplina = new HashSet<>();
+        this.disciplina = new ArrayList<>();
 
     }
 
-    public Curso(String descricao, List<Aluno> alunos, Set<Disciplina> disciplina) {
+    public Curso(String descricao, List<Aluno> alunos, List<Disciplina> disciplina) {
         this.descricao = descricao;
         this.alunos = alunos;
         this.disciplina = disciplina;
@@ -61,11 +57,11 @@ public class Curso {
         this.alunos = alunos;
     }
 
-    public Set<Disciplina> getDisciplina() {
+    public List<Disciplina> getDisciplina() {
         return disciplina;
     }
 
-    public void setDisciplina(Set<Disciplina> disciplina) {
+    public void setDisciplina(List<Disciplina> disciplina) {
         this.disciplina = disciplina;
     }
 
