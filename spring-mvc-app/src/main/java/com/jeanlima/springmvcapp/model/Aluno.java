@@ -43,15 +43,17 @@ public class Aluno {
     private List<SistemaOperacional> sistemasOperacionais;
 
 
-    @ManyToMany(mappedBy = "alunos")
-    private List<Disciplina> disciplinas;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
+    @JoinTable(name = "disciplina_aluno", joinColumns = @JoinColumn(name = "aluno_id"),
+            inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
+    private Set<Disciplina> disciplinas;
 
     public Aluno() {
         this.avatar = new Avatar();
-        this.disciplinas = new ArrayList<>();
+        this.disciplinas = new HashSet<>();
     }
 
-    public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, List<Disciplina> disciplinas) {
+    public Aluno(String primeiroNome, String ultimoNome, String email, Avatar avatar, Curso curso, LinguagemDeProgramacao linguagem, List<SistemaOperacional> sistemasOperacionais, Set<Disciplina> disciplinas) {
         this.primeiroNome = primeiroNome;
         this.ultimoNome = ultimoNome;
         this.email = email;
@@ -126,11 +128,11 @@ public class Aluno {
         this.sistemasOperacionais = sistemasOperacionais;
     }
 
-    public List<Disciplina> getDisciplinas() {
+    public Set<Disciplina> getDisciplinas() {
         return disciplinas;
     }
 
-    public void setDisciplinas(List<Disciplina> disciplinas) {
+    public void setDisciplinas(Set<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
     }
 
