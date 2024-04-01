@@ -35,7 +35,7 @@ public class SpringMvcAppApplication {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-            
+
             // Criar cursos
             List<Curso> cursos = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
@@ -51,18 +51,12 @@ public class SpringMvcAppApplication {
                 Disciplina disciplina = new Disciplina();
                 disciplina.setDescricao("Disciplina " + (i + 1));
                 disciplina.setCodigo("D00" + (i + 1));
+
+                disciplina.setCursos(cursos);
+
                 disciplinas.add(disciplina);
             }
             disciplinaRepository.saveAll(disciplinas);
-
-            // Associar disciplinas aos cursos
-            for (Disciplina disciplina : disciplinas) {
-                for (int i = 0; i < 2; i++) { // Associar cada disciplina a 2 cursos
-                    Curso curso = cursos.get(new Random().nextInt(cursos.size()));
-                    disciplina.getCursos().add(curso);
-                    curso.getDisciplina().add(disciplina);
-                }
-            }
 
             // Associar alunos às disciplinas
             List<Aluno> alunos = new ArrayList<>();
@@ -75,25 +69,13 @@ public class SpringMvcAppApplication {
                 Curso cursoDoAluno = cursos.get(new Random().nextInt(cursos.size()));
                 aluno.setCurso(cursoDoAluno);
 
-                alunoRepository.save(aluno);
+                for (Disciplina disciplina : disciplinas) { // Associar cada aluno a 3 disciplinas
+                    aluno.getDisciplinas().add(disciplina);
+                }
+
                 alunos.add(aluno);
             }
-
-            for (Aluno aluno : alunos) {
-                for (int i = 0; i < 3; i++) { // Associar cada aluno a 3 disciplinas
-                    Disciplina disciplina = disciplinas.get(new Random().nextInt(disciplinas.size()));
-                    aluno.getDisciplinas().add(disciplina);
-                    disciplina.getAlunos().add(aluno);
-                }
-            }
-
-            // Salvar todas as alterações no banco de dados
             alunoRepository.saveAll(alunos);
-            disciplinaRepository.saveAll(disciplinas);
-
-
-
-
         };
     }
 

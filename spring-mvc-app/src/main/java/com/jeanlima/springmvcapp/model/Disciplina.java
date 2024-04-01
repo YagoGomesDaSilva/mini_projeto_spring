@@ -23,7 +23,7 @@ public class Disciplina {
             name="disciplina_aluno",
             joinColumns=@JoinColumn(name="disciplina_id"),
             inverseJoinColumns=@JoinColumn(name="aluno_id"))
-    private List<Aluno> alunos;
+    private Set<Aluno> alunos;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE})
     @JoinTable(
@@ -33,13 +33,13 @@ public class Disciplina {
     private List<Curso> cursos;
 
     public Disciplina() {
-        this.alunos = new ArrayList<>();
+        this.alunos = new HashSet<>();
         this.cursos = new ArrayList<>();
 
 
     }
 
-    public Disciplina(String descricao, String codigo, List<Aluno> alunos, List<Curso> cursos) {
+    public Disciplina(String descricao, String codigo, Set<Aluno> alunos, List<Curso> cursos) {
         this.descricao = descricao;
         this.codigo = codigo;
         this.alunos = alunos;
@@ -70,11 +70,11 @@ public class Disciplina {
         this.codigo = codigo;
     }
 
-    public List<Aluno> getAlunos() {
+    public Set<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(Set<Aluno> alunos) {
         this.alunos = alunos;
     }
 
